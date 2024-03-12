@@ -2,13 +2,7 @@ package fr.miage.bank.domain.entity;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
-
-import org.springframework.cglib.core.Local;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,16 +15,16 @@ import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class CreditRequest {
+public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Positive(message = "Le montant du crédit doit être positif")
-    private double montantCredit;
+    private double loanAmount;
 
     @Positive(message = "La durée du crédit doit être un nombre positif")
-    private int dureeCredit;
+    private int loanDuration;
     @Positive(message = "Les revenues des 3 dernières années doit être un nombre positif")
     private double revenue3dernierreAnnee;
 
@@ -38,15 +32,15 @@ public class CreditRequest {
     private StatusEnum status;
 
     @Enumerated(EnumType.STRING)
-    private CreditType creditType;
+    private LoanType loanType;
 
     @NotNull
     private LocalDate lastModified;
     @NotNull
-    private LocalDate dateDemande;
+    private LocalDate requestDate;
 
-    @OneToOne(mappedBy = "creditRequest")
-    private EcheanceCredit echeanceCredit;
+    @OneToOne(mappedBy = "loan")
+    private CreditDeadline creditDeadline;
 
     @NotNull
     @ManyToOne
@@ -54,30 +48,30 @@ public class CreditRequest {
     private Customer customer;
 
     @Enumerated(EnumType.STRING)
-    private StatusEnum propositionConseiller;
+    private StatusEnum proposalAdvisor;
 
-    public StatusEnum getPropositionConseiller() {
-        return propositionConseiller;
+    public long getId() {
+        return id;
     }
 
-    public void setPropositionConseiller(StatusEnum propositionConseiller) {
-        this.propositionConseiller = propositionConseiller;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public double getMontantCredit() {
-        return montantCredit;
+    public double getLoanAmount() {
+        return loanAmount;
     }
 
-    public void setMontantCredit(double montantCredit) {
-        this.montantCredit = montantCredit;
+    public void setLoanAmount(double loanAmount) {
+        this.loanAmount = loanAmount;
     }
 
-    public int getDureeCredit() {
-        return dureeCredit;
+    public int getLoanDuration() {
+        return loanDuration;
     }
 
-    public void setDureeCredit(int dureeCredit) {
-        this.dureeCredit = dureeCredit;
+    public void setLoanDuration(int loanDuration) {
+        this.loanDuration = loanDuration;
     }
 
     public double getRevenue3dernierreAnnee() {
@@ -88,20 +82,20 @@ public class CreditRequest {
         this.revenue3dernierreAnnee = revenue3dernierreAnnee;
     }
 
-    public LocalDate getDateDemande() {
-        return dateDemande;
-    }
-
-    public void setDateDemande(LocalDate dateDemande) {
-        this.dateDemande = dateDemande;
+    public StatusEnum getStatus() {
+        return status;
     }
 
     public void setStatus(StatusEnum status) {
         this.status = status;
     }
 
-    public StatusEnum getStatus() {
-        return status;
+    public LoanType getLoanType() {
+        return loanType;
+    }
+
+    public void setLoanType(LoanType loanType) {
+        this.loanType = loanType;
     }
 
     public LocalDate getLastModified() {
@@ -111,5 +105,38 @@ public class CreditRequest {
     public void setLastModified(LocalDate lastModified) {
         this.lastModified = lastModified;
     }
+
+    public LocalDate getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(LocalDate requestDate) {
+        this.requestDate = requestDate;
+    }
+
+    public CreditDeadline getCreditDeadline() {
+        return creditDeadline;
+    }
+
+    public void setCreditDeadline(CreditDeadline creditDeadline) {
+        this.creditDeadline = creditDeadline;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public StatusEnum getProposalAdvisor() {
+        return proposalAdvisor;
+    }
+
+    public void setProposalAdvisor(StatusEnum proposalAdvisor) {
+        this.proposalAdvisor = proposalAdvisor;
+    }
+
 
 }

@@ -6,12 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Repository;
 
-import fr.miage.bank.domain.entity.CreditRequest;
+import fr.miage.bank.domain.entity.Loan;
 import fr.miage.bank.domain.entity.Customer;
 import fr.miage.bank.infrastructure.rest.shared.StatusEnum;
 
-public interface CreditRequestRepository extends JpaRepository<CreditRequest, Long> {
-     List<CreditRequest> findByStatusNotIn(List<StatusEnum> status);
+public interface LoanRepository extends JpaRepository<Loan, Long> {
+     List<Loan> findByStatusNotIn(List<StatusEnum> status);
 
-     List<CreditRequest> findByCustomerAndStatusNotIn(Customer customer, List<StatusEnum> status);
+     List<Loan> findByCustomerAndStatusNotIn(Customer customer, List<StatusEnum> status);
 }

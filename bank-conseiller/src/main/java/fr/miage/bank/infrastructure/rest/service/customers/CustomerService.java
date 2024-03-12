@@ -1,8 +1,8 @@
-package fr.miage.bank.infrastructure.rest.service;
+package fr.miage.bank.infrastructure.rest.service.customers;
 
 import java.util.List;
 
-import fr.miage.bank.domain.entity.CreditRequest;
+import fr.miage.bank.domain.entity.Loan;
 import fr.miage.bank.domain.entity.Customer;
 
 public interface CustomerService {
@@ -13,6 +13,6 @@ public interface CustomerService {
 
     public List<Customer> findAll();
 
-    public List<CreditRequest> getCreditRequestsPending(Long userId);
+    public List<Loan> getLoansPending(Long userId);
 
 }

@@ -27,21 +27,21 @@ public class Customer {
     @NotNull
     private String email;
     @NotNull
-    private String nom;
+    private String firstName;
     @NotNull
-    private String prenom;
+    private String lastName;
 
     @NotNull
-    private String dateNaissance;
+    private String birthDate;
 
-    private String adresse;
+    private String adress;
 
-    private String emploie;
+    private String job;
 
     @NotNull
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<CreditRequest> creditRequests;
+    private List<Loan> loans;
 
     public long getCustomer_id() {
         return customer_id;
@@ -59,52 +59,54 @@ public class Customer {
         this.email = email;
     }
 
-    public String getNom() {
-        return nom;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getPrenom() {
-        return prenom;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getAdresse() {
-        return adresse;
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public String getDateNaissance() {
-        return dateNaissance;
+    public String getAdress() {
+        return adress;
     }
 
-    public void setDateNaissance(String dateNaissance) {
-        this.dateNaissance = dateNaissance;
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 
-    public String getEmploie() {
-        return emploie;
+    public String getJob() {
+        return job;
     }
 
-    public void setEmploie(String emploie) {
-        this.emploie = emploie;
+    public void setJob(String job) {
+        this.job = job;
     }
 
-    public List<CreditRequest> getCreditRequests() {
-        return creditRequests;
+    public List<Loan> getLoans() {
+        return loans;
     }
 
-    public void setCreditRequests(List<CreditRequest> creditRequests) {
-        this.creditRequests = creditRequests;
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
     }
+
+   
 
 }

@@ -1,8 +1,4 @@
 package fr.miage.bank.infrastructure.rest.controllers;
-
-import javax.swing.text.html.parser.Entity;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -13,20 +9,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ecwid.consul.v1.Response;
-import com.netflix.discovery.converters.Auto;
-
-import fr.miage.bank.domain.entity.CreditRequest;
+import fr.miage.bank.domain.entity.Loan;
 import fr.miage.bank.domain.entity.Customer;
 import fr.miage.bank.infrastructure.repository.CustomerRepository;
-import fr.miage.bank.infrastructure.rest.assembler.CreditRequestModelAssembler;
+import fr.miage.bank.infrastructure.rest.assembler.LoanModelAssembler;
 import fr.miage.bank.infrastructure.rest.assembler.UserModelAssembler;
-import fr.miage.bank.infrastructure.rest.service.CustomerService;
+import fr.miage.bank.infrastructure.rest.service.customers.CustomerService;
 import fr.miage.bank.infrastructure.rest.service.exception.ResourceNotFound;
 import jakarta.transaction.Transactional;
-
-import static java.util.stream.Collectors.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
@@ -36,14 +26,14 @@ public class CustomerController {
     private CustomerService customerService;
     private CustomerRepository customerRepository;
     private UserModelAssembler customerModelAssembler;
-    private CreditRequestModelAssembler creditRequestModelAssembler;
+    private LoanModelAssembler loanModelAssembler;
 
     public CustomerController(CustomerService userService, UserModelAssembler userModelAssembler,
-            CustomerRepository customerRepository, CreditRequestModelAssembler creditRequestModelAssembler) {
+            CustomerRepository customerRepository, LoanModelAssembler loanModelAssembler) {
         this.customerService = userService;
         this.customerModelAssembler = userModelAssembler;
         this.customerRepository = customerRepository;
-        this.creditRequestModelAssembler = creditRequestModelAssembler;
+        this.loanModelAssembler = loanModelAssembler;
     }
 
     // Permet de récupérer tous les utilisateurs qui ont deja fait un crédit
@@ -55,10 +45,10 @@ public class CustomerController {
     // Permet de récupérer toutes les demandes de crédit en cours pour un
     // utilisateur
     @GetMapping("/{id}/credits")
-    public ResponseEntity<CollectionModel<EntityModel<CreditRequest>>> getAllCreditRequestPending(
+    public ResponseEntity<CollectionModel<EntityModel<Loan>>> getLoansPending(
             @PathVariable("id") long userId) {
         return ResponseEntity
-                .ok(creditRequestModelAssembler.toCollectionModel(customerService.getCreditRequestsPending(userId)));
+                .ok(loanModelAssembler.toCollectionModel(customerService.getLoansPending(userId)));
     }
 
     // Permet de récupérer un utilisateur par son id

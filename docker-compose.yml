@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: bank-container
+    environment:
+      POSTGRES_DB: bank
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "15432:5432"
+    networks:
+      - app_network
+
+  consul:
+    image: hashicorp/consul:1.16.5
+    container_name: consul_container
+    ports:
+      - "8500:8500"
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge

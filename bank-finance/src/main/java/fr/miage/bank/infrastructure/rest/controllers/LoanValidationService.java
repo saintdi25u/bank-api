@@ -2,8 +2,8 @@ package fr.miage.bank.infrastructure.rest.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.miage.bank.domain.entity.CreditRequest;
-import fr.miage.bank.infrastructure.repository.CreditRequestRepository;
+import fr.miage.bank.domain.entity.Loan;
+import fr.miage.bank.infrastructure.repository.LoanRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -13,22 +13,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-public class CreditValidationService {
+public class LoanValidationService {
 
     private Environment environment;
 
     @Autowired
-    private CreditRequestRepository creditRequestRepository;
+    private LoanRepository loanRepository;
 
-    public CreditValidationService(Environment environment) {
+    public LoanValidationService(Environment environment) {
         this.environment = environment;
     }
 
-    @GetMapping("/finance/{id}/validation/revenus")
-    public String getValidationCreditRequest(@PathVariable(value = "id") long creditRequestId) {
+    @GetMapping("/{id}/validate")
+    public String getValidationLoan(@PathVariable(value = "id") long loanId) {
         System.out.println("Validation des revenus");
-        CreditRequest creditRequest = creditRequestRepository.findById(creditRequestId).orElseThrow();
-        if (creditRequest.getRevenue3dernierreAnnee() < 25000.0) {
+        Loan loan = loanRepository.findById(loanId).orElseThrow();
+        if (loan.getRevenue3dernierreAnnee() < 25000.0) {
             return new String("ko");
         } else {
             return new String("ok");
