@@ -2,9 +2,12 @@ package fr.miage.bank.infrastructure.rest.controllers;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import fr.miage.bank.domain.entity.Loan;
+import fr.miage.bank.domain.entity.StatusHistory;
 import fr.miage.bank.domain.entity.CreditDeadline;
 import fr.miage.bank.infrastructure.repository.LoanRepository;
 import fr.miage.bank.infrastructure.rest.assembler.LoanModelAssembler;
+import fr.miage.bank.infrastructure.rest.assembler.StatusHistoryModelAssembler;
+import fr.miage.bank.infrastructure.rest.service.exception.ResourceNotFound;
 import fr.miage.bank.infrastructure.rest.service.loans.LoanServiceImpl;
 import fr.miage.bank.infrastructure.rest.assembler.CreditDeadlineModelAssembler;
 import fr.miage.bank.infrastructure.rest.shared.StatusEnum;
@@ -29,6 +32,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import static java.util.stream.Collectors.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/credits")
@@ -39,6 +44,7 @@ public class LoanController {
     private LoanModelAssembler loanModelAssembler;
     private LoanServiceImpl loanServiceImpl;;
     private CreditDeadlineModelAssembler echeanceCreditModelAssembler;
+    private StatusHistoryModelAssembler statusHistoryModelAssembler;
     RestTemplate template;
     LoadBalancerClientFactory clientFactory;
 
@@ -46,13 +52,15 @@ public class LoanController {
     public LoanController(RestTemplate template, LoadBalancerClientFactory clientFactory,
             LoanRepository creditRequestRepository,
             LoanServiceImpl creditRequestService, LoanModelAssembler creditRequestModelAssembler,
-            CreditDeadlineModelAssembler echeanceCreditModelAssembler) {
+            CreditDeadlineModelAssembler echeanceCreditModelAssembler, 
+            StatusHistoryModelAssembler statusHistoryModelAssembler) {
         this.template = template;
         this.clientFactory = clientFactory;
         this.loanRepository = creditRequestRepository;
         this.loanServiceImpl = creditRequestService;
         this.loanModelAssembler = creditRequestModelAssembler;
         this.echeanceCreditModelAssembler = echeanceCreditModelAssembler;
+        this.statusHistoryModelAssembler = statusHistoryModelAssembler;
     }
 
     // Permet de récupérér toutes les demandes de crédit
@@ -73,9 +81,16 @@ public class LoanController {
     // Permet de créer une demande de crédit
     @PostMapping()
     public ResponseEntity<?> create(@RequestBody Loan loan) {
-        Loan newLoan = loanServiceImpl.create(loan);
-        return ResponseEntity.created(linkTo(getClass()).slash(newLoan.getId()).toUri())
+        try {
+            Loan newLoan = loanServiceImpl.create(loan);
+            return ResponseEntity.created(linkTo(getClass()).slash(newLoan.getId()).toUri())
                 .body(loanModelAssembler.toModel(newLoan));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body("Informations essentielles manquantes");
+        }
+  
+
+        
     }
 
     // Permet de modifier une demande de crédit
@@ -115,6 +130,13 @@ public class LoanController {
         Loan loan =   loanRepository.findById(loanId).orElseThrow();
         return loanModelAssembler.toModel(loan);
     }
+    
+    @GetMapping("/{id}/details")
+    public ResponseEntity<CollectionModel<EntityModel<StatusHistory>>>  getByIdDetails(@PathVariable(value = "id") Long loanId) {
+        System.out.println(loanServiceImpl.getStatusHistory(loanId));
+        return ResponseEntity.ok(statusHistoryModelAssembler.toCollectionModel(loanServiceImpl.getStatusHistory(loanId)));
+    }
+    
 
     // Permet au conseiller de spécifier qu'il accepte le dossier
     @PostMapping("{id}/accept")
@@ -167,7 +189,7 @@ public class LoanController {
         Loan loanFind = loanRepository.findById(loanId).orElseThrow();
         RoundRobinLoadBalancer lb = clientFactory.getInstance("finance-service", RoundRobinLoadBalancer.class);
         ServiceInstance instance = lb.choose().block().getServer();
-        String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/{id}/validate";
+        String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/{id}/validate?amount=" +loanFind.getRevenue3dernierreAnnee();
         String response = template.getForObject(url, String.class, loanId);
         System.out.println(response);
         switch (response) {

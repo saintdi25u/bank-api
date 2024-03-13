@@ -3,8 +3,6 @@ package fr.miage.bank.infrastructure.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.stereotype.Repository;
 
 import fr.miage.bank.domain.entity.Loan;
 import fr.miage.bank.domain.entity.Customer;

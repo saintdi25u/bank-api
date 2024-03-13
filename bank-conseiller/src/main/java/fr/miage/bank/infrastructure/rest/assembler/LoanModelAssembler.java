@@ -75,6 +75,9 @@ public class LoanModelAssembler
                 model.add(linkTo(methodOn(CustomerController.class).get(loan.getCustomer().getCustomer_id()))
                                 .withRel("customer").withType("GET"));
 
+                model.add(linkTo(methodOn(LoanController.class).getByIdDetails(loan.getId()))
+                                .withSelfRel().withType("GET"));
+                
                 // model.add(linkTo(methodOn(CustomerController.class).getAll())
                 // .withRel("customers").withType("GET")); // A LAISSER OU PAS ?
 
