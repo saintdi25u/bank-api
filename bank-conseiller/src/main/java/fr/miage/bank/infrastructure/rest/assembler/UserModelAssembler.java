@@ -1,4 +1,5 @@
 package fr.miage.bank.infrastructure.rest.assembler;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.stream.StreamSupport;
@@ -21,7 +22,7 @@ public class UserModelAssembler implements RepresentationModelAssembler<Customer
                                 .get(customer.getCustomer_id())).withSelfRel().withType("GET"));
 
                 model.add(linkTo(methodOn(CustomerController.class)
-                                .create(customer)).withRel("users").withType("POST"));
+                                .create(customer)).withRel("users").withType("GET"));
 
                 model.add(linkTo(methodOn(CustomerController.class)
                                 .getLoansPending(customer.getCustomer_id())).withSelfRel().withRel("credits")
