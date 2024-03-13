@@ -45,7 +45,8 @@ public class Loan {
             @NotNull LocalDate lastModified, @NotNull LocalDate requestDate,
             CreditType loanType,
             StatusEnum proposalAdvisor,
-            Customer customer) {
+            Customer customer,
+            CreditDeadline creditDeadline) {
         this.id = id;
         this.loanAmount = loanAmount;
         this.loanDuration = loanDuration;
@@ -56,6 +57,7 @@ public class Loan {
         this.loanType = loanType;
         this.customer = customer;
         this.proposalAdvisor = proposalAdvisor;
+        this.creditDeadline = creditDeadline;
     }
 
     public Loan() {
@@ -88,7 +90,9 @@ public class Loan {
     @NotNull
     private LocalDate requestDate;
 
-    @OneToOne(mappedBy = "loan")
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "credit_deadline_id")
     private CreditDeadline creditDeadline;
 
     @NotNull
@@ -96,8 +100,8 @@ public class Loan {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    //@OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
-   // private ArrayList<StatusHistory> statusHistory;
+    // @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
+    // private ArrayList<StatusHistory> statusHistory;
 
     public long getId() {
         return id;
@@ -115,12 +119,13 @@ public class Loan {
         this.loanAmount = loanAmount;
     }
 
-public void setLoanDuration(int loanDuration) {
-    this.loanDuration = loanDuration;
-}
-public int getLoanDuration() {
-    return loanDuration;
-}
+    public void setLoanDuration(int loanDuration) {
+        this.loanDuration = loanDuration;
+    }
+
+    public int getLoanDuration() {
+        return loanDuration;
+    }
 
     public double getRevenue3dernierreAnnee() {
         return revenue3dernierreAnnee;
@@ -146,12 +151,13 @@ public int getLoanDuration() {
         this.proposalAdvisor = proposalAdvisor;
     }
 
-  public CreditType getLoanType() {
-      return loanType;
-  }
-  public void setLoanType(CreditType loanType) {
-      this.loanType = loanType;
-  }
+    public CreditType getLoanType() {
+        return loanType;
+    }
+
+    public void setLoanType(CreditType loanType) {
+        this.loanType = loanType;
+    }
 
     public LocalDate getLastModified() {
         return lastModified;
@@ -184,7 +190,5 @@ public int getLoanDuration() {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
- 
 
 }

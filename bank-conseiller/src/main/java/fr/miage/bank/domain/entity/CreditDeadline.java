@@ -21,8 +21,7 @@ public class CreditDeadline {
     private long id;
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "loan_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "creditDeadline")
     private Loan loan;
 
     @NotNull
@@ -36,49 +35,61 @@ public class CreditDeadline {
     private double capitalAmount;
     @NotNull
     private double rateLoan;
+
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public Loan getLoan() {
         return loan;
     }
+
     public void setLoan(Loan loan) {
         this.loan = loan;
     }
+
     public LocalDate getLoanStartDate() {
         return loanStartDate;
     }
+
     public void setLoanStartDate(LocalDate loanStartDate) {
         this.loanStartDate = loanStartDate;
     }
+
     public LocalDate getLoanEndDate() {
         return loanEndDate;
     }
+
     public void setLoanEndDate(LocalDate loanEndDate) {
         this.loanEndDate = loanEndDate;
     }
+
     public double getCreditDeadlineAmount() {
         return creditDeadlineAmount;
     }
+
     public void setCreditDeadlineAmount(double creditDeadlineAmount) {
         this.creditDeadlineAmount = creditDeadlineAmount;
     }
+
     public double getCapitalAmount() {
         return capitalAmount;
     }
+
     public void setCapitalAmount(double capitalAmount) {
         this.capitalAmount = capitalAmount;
     }
+
     public double getRateLoan() {
         return rateLoan;
     }
+
     public void setRateLoan(double rateLoan) {
         this.rateLoan = rateLoan;
     }
-
-
 
 }

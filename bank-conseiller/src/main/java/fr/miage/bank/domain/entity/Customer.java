@@ -14,7 +14,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "customer_id")
 @Entity
@@ -25,17 +27,27 @@ public class Customer {
     private long customer_id;
 
     @NotNull
+    @NotBlank
     private String email;
+
     @NotNull
+    @NotBlank
     private String firstName;
+
     @NotNull
+    @NotBlank
     private String lastName;
 
     @NotNull
+    @NotBlank
     private String birthDate;
 
+    @NotNull
+    @NotBlank
     private String adress;
 
+    @NotNull
+    @NotBlank
     private String job;
 
     @NotNull
@@ -106,7 +118,5 @@ public class Customer {
     public void setLoans(List<Loan> loans) {
         this.loans = loans;
     }
-
-   
 
 }

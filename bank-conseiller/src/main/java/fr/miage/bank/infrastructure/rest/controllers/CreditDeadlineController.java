@@ -1,6 +1,7 @@
 package fr.miage.bank.infrastructure.rest.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,9 @@ public class CreditDeadlineController {
     public ResponseEntity<CreditDeadline> getCreditDeadline(@PathVariable("id") long idLoan) {
         Loan loan = loanRepository.findById(idLoan)
                 .orElseThrow(() -> new ResourceNotFound());
+        if (loan == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(creditDeadlineService.getByCreditRequest(loan.getCreditDeadline()));
     }
 

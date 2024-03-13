@@ -35,10 +35,9 @@ public class LoanServiceImpl implements LoanService {
 
     @Autowired
     CustomerRepository customerRepository;
-    
+
     @Autowired
     StatusHistoryRepository statusHistoryRepository;
-
 
     @Override
     public Loan create(Loan loan) {
@@ -55,7 +54,8 @@ public class LoanServiceImpl implements LoanService {
         loan.setCustomer(customer);
 
         Loan toSave = loanRepository.save(loan);
-        statusHistoryRepository.save(new StatusHistory(loan, StatusEnum.DEBUT, null, this.getCurrentDate("yyyy-MM-dd")));
+        statusHistoryRepository
+                .save(new StatusHistory(loan, StatusEnum.DEBUT, null, this.getCurrentDate("yyyy-MM-dd")));
         return toSave;
 
     }
@@ -75,9 +75,9 @@ public class LoanServiceImpl implements LoanService {
     }
 
     // public Enum<StatusEnum> getStatusloan(long loadId) {
-    //     Loan loan = loanRepository.findById(loadId)
-    //             .orElseThrow(() -> new ResourceNotFound());
-    //     return loan.getStatus();
+    // Loan loan = loanRepository.findById(loadId)
+    // .orElseThrow(() -> new ResourceNotFound());
+    // return loan.getStatus();
     // }
 
     public Loan send(long loanId) {
@@ -89,7 +89,8 @@ public class LoanServiceImpl implements LoanService {
         } else {
             loan.setStatus(StatusEnum.ETUDE);
             loan.setProposalAdvisor(StatusEnum.ETUDE);
-            statusHistoryRepository.save(new StatusHistory(loan, StatusEnum.DEBUT, StatusEnum.ETUDE, this.getCurrentDate("yyyy-MM-dd")));
+            statusHistoryRepository.save(
+                    new StatusHistory(loan, StatusEnum.DEBUT, StatusEnum.ETUDE, this.getCurrentDate("yyyy-MM-dd")));
             return loanRepository.save(loan);
         }
     }
@@ -101,12 +102,13 @@ public class LoanServiceImpl implements LoanService {
         if (loan.getStatus() != StatusEnum.ETUDE) {
             throw new IllegalStateException();
         }
-        statusHistoryRepository.save(new StatusHistory(loan, StatusEnum.ETUDE, StatusEnum.VALIDATION, this.getCurrentDate("yyyy-MM-dd")));
+        statusHistoryRepository.save(
+                new StatusHistory(loan, StatusEnum.ETUDE, StatusEnum.VALIDATION, this.getCurrentDate("yyyy-MM-dd")));
         return new Loan(loan.getId(), loan.getLoanAmount(),
                 loan.getLoanDuration(), loan.getRevenue3dernierreAnnee(),
                 StatusEnum.VALIDATION, this.getCurrentDate("yyyy-MM-dd"),
                 loan.getRequestDate(), loan.getLoanType(), StatusEnum.ACCEPTATION,
-                loan.getCustomer());
+                loan.getCustomer(), loan.getCreditDeadline());
     }
 
     public Loan refuse(Long loanId) {
@@ -116,13 +118,14 @@ public class LoanServiceImpl implements LoanService {
         if (loan.getStatus() != StatusEnum.ETUDE) {
             throw new IllegalStateException();
         }
-        statusHistoryRepository.save(new StatusHistory(loan, StatusEnum.ETUDE, StatusEnum.VALIDATION, this.getCurrentDate("yyyy-MM-dd")));
+        statusHistoryRepository.save(
+                new StatusHistory(loan, StatusEnum.ETUDE, StatusEnum.VALIDATION, this.getCurrentDate("yyyy-MM-dd")));
 
         return new Loan(loan.getId(), loan.getLoanAmount(),
                 loan.getLoanDuration(), loan.getRevenue3dernierreAnnee(),
                 StatusEnum.VALIDATION, this.getCurrentDate("yyyy-MM-dd"),
                 loan.getRequestDate(), loan.getLoanType(), StatusEnum.REJET,
-                loan.getCustomer());
+                loan.getCustomer(), loan.getCreditDeadline());
     }
 
     public Loan valid(Long loanId) {
@@ -132,13 +135,14 @@ public class LoanServiceImpl implements LoanService {
             throw new IllegalStateException();
         }
 
-        statusHistoryRepository.save(new StatusHistory(loan, StatusEnum.VALIDATION, StatusEnum.ACCEPTATION, this.getCurrentDate("yyyy-MM-dd")));
+        statusHistoryRepository.save(new StatusHistory(loan, StatusEnum.VALIDATION, StatusEnum.ACCEPTATION,
+                this.getCurrentDate("yyyy-MM-dd")));
 
         return new Loan(loan.getId(), loan.getLoanAmount(),
                 loan.getLoanDuration(), loan.getRevenue3dernierreAnnee(),
                 StatusEnum.ACCEPTATION, this.getCurrentDate("yyyy-MM-dd"),
                 loan.getRequestDate(), loan.getLoanType(), loan.getProposalAdvisor(),
-                loan.getCustomer());
+                loan.getCustomer(), loan.getCreditDeadline());
     }
 
     @Override
@@ -150,13 +154,14 @@ public class LoanServiceImpl implements LoanService {
             throw new IllegalStateException();
         }
 
-        statusHistoryRepository.save(new StatusHistory(loan, StatusEnum.VALIDATION, StatusEnum.REJET, this.getCurrentDate("yyyy-MM-dd")));
+        statusHistoryRepository.save(
+                new StatusHistory(loan, StatusEnum.VALIDATION, StatusEnum.REJET, this.getCurrentDate("yyyy-MM-dd")));
 
         return new Loan(loan.getId(), loan.getLoanAmount(),
                 loan.getLoanDuration(), loan.getRevenue3dernierreAnnee(),
                 StatusEnum.REJET, this.getCurrentDate("yyyy-MM-dd"),
                 loan.getRequestDate(), loan.getLoanType(), loan.getProposalAdvisor(),
-                loan.getCustomer());
+                loan.getCustomer(), loan.getCreditDeadline());
     }
 
     public CreditDeadline createNewEcheanceCredit(Loan loan) {
@@ -193,8 +198,8 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public List<StatusHistory> getStatusHistory(long idLoan) {
-        List<StatusHistory> statusHistory = statusHistoryRepository.findByLoan(loanRepository.findById(idLoan).get()).stream().toList();
-        System.out.println(statusHistory);
+        List<StatusHistory> statusHistory = statusHistoryRepository.findByLoan(loanRepository.findById(idLoan).get())
+                .stream().toList();
         return statusHistory;
     }
 
