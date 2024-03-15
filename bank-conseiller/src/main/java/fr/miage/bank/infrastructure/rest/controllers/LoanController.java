@@ -227,8 +227,8 @@ public class LoanController {
 
     // Permet de demander aux services finance l'étude des revenues
     @GetMapping("/{id}/validate")
-    @CircuitBreaker(name = "conseillerservice", fallbackMethod = "fallbackValidationCall")
-    @Retry(name = "conseillerservice")
+    @CircuitBreaker(name = "bank-service", fallbackMethod = "fallbackValidationCall")
+    @Retry(name = "bank-service")
     public ResponseEntity<EntityModel<Loan>> getValidationLoanByFinanceService(
             @PathVariable(value = "id") long loanId) {
         Loan loanFind = loanRepository.findById(loanId).orElseThrow();
