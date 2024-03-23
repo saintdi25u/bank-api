@@ -1,28 +1,28 @@
 # Rapport API M2 SID - Bank API
 
-Ce projet a été réalisé par SAINT-DIZIER Corentin, étudiant de la promotion 2023/2024 du Master 2 MIAGE SID.
+Ce projet a été réalisé par SAINT-DIZIER Corentin, étudiant de la promotion 2023/2024 du master 2 MIAGE SID.
 
-Dans le cadre du cours de déploiement, passage à l'échelle et disponibilité, nous avions pour projet de développer une API RESTful pour un organisme bancaire afin de permettre la gestion de ses demandes de crédit. L'objectif était de mettre en pratique des liens métiers permettant de gérer la progression de la demande par le biais de HATEOAS (Hypermedia As The Engine of Application State), ainsi que de réaliser au minimum deux services pour démontrer l'échange entre 2 services distincts.
+Dans le cadre du cours de déploiement, passage à l'échelle et disponibilité, nous avions pour projet de développer une API RESTful pour un organisme bancaire afin de permettre la gestion de ses demandes de crédit. L'objectif était de mettre en pratique des liens métiers permettant de gérer la progression de la demande par le biais de HATEOAS (Hypermedia As The Engine of Application State), ainsi que de réaliser aux minimums deux services pour démontrer l'échange entre 2 services distincts.
 
 ## Lancement de l'application
 
-Pour pouvoir lancer l'application, il est tout d'abord nécessaire de démarré les outils nécessaires au bon fonctionnement de l'application. C'est à dire une base de données, dans notre cas ca sera une base de données PostgreSQL, ainsi que consul. Consul va nous permettre de découvrir les services au sein de notre applicaton.
-Pour cela, un fichier `docker-compose.yml` est mis à disposition et prêt à l'emplois.
+Pour pouvoir lancer l'application, il est tout d'abord nécessaire de démarrer les outils nécessaires au bon fonctionnement de l'application. C'est-à-dire une base de données, dans notre cas ça sera une base de données PostgreSQL, ainsi que consul. Consul va nous permettre de découvrir les services au sein de notre application.
+Pour cela, un fichier `docker-compose.yml` est mis à disposition et prêt à l'emploi.
 
 ### Lancement des services
-Pour lancer le docker-compose, il vous suffit de rentrer la commande `docker compose up` dans votre terminal favori.
+Pour lancer le docker compose, il vous suffit de rentrer la commande `docker compose up` dans votre terminal favori.
 
 ### Démarrage du service "bank".
 
-Tout d'abord, veuillez vous dirigez dans le dossier "bank-conseiller".
+Tout d'abord, veuillez vous diriger dans le dossier "bank-conseiller".
 
 `cd bank-conseiller`
 
-Pour démarrer le service "bank", il est tout d'abord recommander de compiler le code source et de créer un exécutable JAR.
+Pour démarrer le service "bank", il est tout d'abord recommandé de compiler le code source et de créer un exécutable JAR.
 
 `mvn clean package`
 
-Ensuite pour démarrer l'application,il suffit d'éxéuter l'éxécutable JAR généré précedemment.
+Ensuite pour démarrer l'application, il suffit d'exécuter l'exécutable JAR généré précédemment.
 
 `java -jar target/bank-conseiller-0.0.1-SNAPSHOT.jar`
 
@@ -30,15 +30,15 @@ Votre service "bank" est désormais démarré.
 
 ### Démarrage du service "finance".
 
-Tout d'abord, veuillez vous dirigez dans le dossier "bank-finance".
+Tout d'abord, veuillez vous diriger dans le dossier "bank-finance".
 
 `cd bank-finance`
 
-Pour démarrer le service "bank-finance", il est tout d'abord recommander de compiler le code source et de créer un exécutable JAR.
+Pour démarrer le service "bank-finance", il est tout d'abord recommandé de compiler le code source et de créer un exécutable JAR.
 
 `mvn clean package`
 
-Ensuite pour démarrer l'application,il suffit d'éxéuter l'éxécutable JAR généré précedemment.
+Ensuite pour démarrer l'application, il suffit d'exécuter l'exécutable JAR généré précédemment.
 
 `java -jar target/finance-service-0.0.1-SNAPSHOT.jar`
 
@@ -53,11 +53,11 @@ Voici une liste de *user stories* de mon API.
 
 - En tant que client, je veux **déposer une demande** de crédit afin de bénéficier de nouveaux moyens financiers
 - En tant que client, je veux **modifier ma demande** de crédit tant qu'elle n'est pas envoyée afin d'y apporter ou de modifier des informations
-- En tant que client, je veux **envoyer ma demande** de crédit afin qu'elle puisse être étudier.
+- En tant que client, je veux **envoyer ma demande** de crédit afin qu'elle puisse être étudiée.
 - En tant que client, je veux **connaître** l'état de ma demande de crédit pour connaitre son avancement.
-- En tant que client, je veux **voir** toutes mes demandes de crédits en cours pour connaitre leurs avancement. 
+- En tant que client, je veux **voir** toutes mes demandes de crédits en cours pour connaitre leurs avancements. 
 - En tant que client,  **je veux m'enregistrer** au sein de la banque afin de pouvoir y effectuer une demande de crédit
-- En tant que client, je veux pouvoir voir en détails le changement de statut de ma demande de crédit.
+- En tant que client, je veux pouvoir **voir en détail** le changement de statut de ma demande de crédit.
 
 ### Conseiller
 
@@ -77,13 +77,112 @@ Voici une liste de *user stories* de mon API.
 
 ## Conception HATEOAS
 
-HATEOAS (Hypermédia as the Engine of Application State) est utilisé dans le cadre des applications RESTful pour permettre à l'utilisateur (au client) de naviguer de manière dynamique avec l'API.
-L'avantage d'HATEOAS est de découplée l'application, permettant ainsi au client d'intéragir avec l'API sans voir une connaissance préalable de l'ensemble des enpoints.
+HATEOAS (Hypermédia as the Engine of Application State) est utilisé dans le cadre des applications RESTful pour permettre à l'utilisateur (au client) de **naviguer de manière dynamique** avec l'API.
+L'avantage d'HATEOAS est de **découpler l'application**, permettant ainsi au client d'interagir avec l'API sans voir une connaissance préalable de l'ensemble des endpoints.
 
 Pour mettre en place une conception HATEOAS, nous avons utilisé principalement la classe et interface suivante : 
 
-- L'interface `RepresentationModelAssembler<?,?>`, cette interface permet la création de représentations de ressources avec des liens hypermédias. Plus simplement, elle permet de transformé une entité JPA et de la transformer en une représentation de ressources enrichies de liens hypermédias.
-- La classe `EntityModel` permet de faciliter la création de modèles de ressources RESTful dans l'application. Plus précisément, elle permet d'encapsuler les données d'une entité métier (une entité JPA dans notre cas). 
+- L'interface **`RepresentationModelAssembler<?,?>`**, cette interface permet la création de représentations de ressources avec des liens hypermédias. Plus simplement, elle permet de transformer une entité JPA et de la transformer en une représentation de ressources enrichies de liens hypermédias.
+- La classe **`EntityModel`** permet de faciliter la création de modèles de ressources RESTful dans l'application. Plus précisément, elle permet d'**encapsuler les données d'une entité métier** (une entité JPA dans notre cas). 
+
+
+## Réalisation technique
+
+Au sein de l'API, nous avons 2 services, celui de la banque et celui des finances publiques.
+
+Voici un schéma représentant leurs communications.
+
+![alt text](images/image.png)
+
+#### Couche RESTful
+
+Concernant la couche RESTful, pour respecter les choix cités précédemment, nous avons 3 classes qui exposent leurs différents points d'accès (endpoints) à travers lesquels les utilisateurs de l'API peuvent interagir avec l'application.
+
+Pour pouvoir voir plus en détails ces routes RESTful, une documentation Swagger est mise à disposition à cette URL accessible lorsque le service banque est démarré.
+
+URL : http://localhost:9000/swagger-ui/index.html#/
+*Attention : il est nécessaire de devoir démarrer l'application pour pouvoir accéder à la documentation*.
+
+![alt text](images/image-1.png)
+
+#### Couche de persistance
+
+Concernant la réalisation technique, j'ai tout d'abord décidé d'avoir 4 entités au sein de mon API : 
+
+1) Une entité pour représenter les demandes de crédit.
+2) Une entité pour représenter les clients.
+3) Une entité pour représenter les échéances de crédits.
+4) Une entité permettant de représenter les détails des changements d'état des demandes de crédits
+
+#### Couche métier.
+
+Au niveau de la couche métier, pour la séparation des responsabilités, j'ai décidé de créer 3 interfaces qui auront chacune leur implémentation.
+
+1) Une classe service permettant de gérer la logique métier des demandes de crédits
+2) Une classe service permettant de gérer la logique métier des clients
+3) Une classe service permettant de gérer la logique métier des échéances de crédits.
+
+
+Ensuite, au sein de mon API, la couche de persistance est géré par JPA (Java Persistence API). JPA m'a permis de pouvoir mapper mes entités Java (Spring) à des entités de base de données relationnelles (PostgreSQL).
+
+### Aspects techniques
+
+#### Communication entre le service banque et le service des finances
+
+Pour que nos deux services puissent communiquer, j'ai décidé de mettre en place un "circuit breaker" qui va se charger de faire appel au service des finances. Si ce dernier échoue à répondre, le "circuit breaker" va basculer à l'état "ouvert", ce qui va empêcher l'envoi de requête inutile à un service défaillant.
+
+Au sein de ma classe `LoanController.java`, nous pouvons y voir un endpoint `/{id}/validate` avec une méthode GET, pour demander au service des finances si les revenus déclarés par le client sont bien corrects.
+
+Voici le code de cette méthode.
+
+```java
+ @GetMapping("/{id}/validate")
+    @CircuitBreaker(name = "bank-service", fallbackMethod = "fallbackValidationCall")
+    @Retry(name = "bank-service")
+    public ResponseEntity<EntityModel<Loan>> getValidationLoanByFinanceService(@PathVariable(value = "id") long loanId) {
+        Loan loanFind = loanRepository.findById(loanId).orElseThrow();
+        if (!loanRepository.findById(loanId).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        RoundRobinLoadBalancer lb = clientFactory.getInstance("finance-service", RoundRobinLoadBalancer.class);
+        ServiceInstance instance = lb.choose().block().getServer();
+        String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/{id}/validate?amount="+ loanFind.getRevenue3dernierreAnnee();
+        String response = template.getForObject(url, String.class, loanId);
+        switch (response) {
+            case "ok":
+                loanFind.setStatus(StatusEnum.VALIDATION);
+                loanRepository.save(loanFind);
+                break;
+            case "ko":
+                loanFind.setStatus(StatusEnum.REJET);
+                loanRepository.save(loanFind);
+                break;
+            default:
+                break;
+        }
+        loanFind.setLastModified(this.getCurrentDate("yyyy-MM-dd"));
+        return ResponseEntity.ok(loanModelAssembler.toModel(loanFind));
+    }
+```
+
+Lors de l'appel à cet endpoint, le code va donc se charger de faire plusieurs choses : 
+- Créer une instance de la classe `RoundRobinBalancer` 
+- De récupérer une instance du service "finance-service"
+- De créer une URL sur laquelle la requête va être lancée
+- Le traitement de la réponse obtenue par le service des finances
+
+Dans le cas ou le service des finances est défaillant, notre service va se charger d'exécuter le contenu de la méthode `fallbackValidationCall`. Voici son contenu.
+
+```java
+    public ResponseEntity<EntityModel<Loan>> fallbackValidationCall(long loanId, Throwable t) {
+        System.out.println("Fallback method called");
+        Loan creditRequest = loanRepository.findById(loanId).orElseThrow();
+        return ResponseEntity.status(503).body(loanModelAssembler.toModel(creditRequest));
+    }
+```
+
+Cette méthode est simple, elle va se charger uniquement de retourner la demande de crédit qui a été envoyé au service des finances et renvoyé un code d'erreur 503 (`ServiceUnavailable`).
+
 
 ### Exemple de scénario
 
@@ -369,14 +468,14 @@ Réponse :
 }
 ```
 
-Enfin, une fois la demande de crédit validé, les échéances de crédits sont instanciées et sont caractérisé par : 
+Enfin, une fois la demande de crédit validé, les échéances de crédits sont instanciées et sont caractérisées par : 
 - La date de début du crédit
 - La date de fin
 - Le montant par mois
 - Le capital demandé par le client
 - Le taux de crédit
 
-*Remarque :* Pour choisir un taux de crédit, j'ai décidé d'ajouter un type de crédit lors de l'envoie de la demande (Consommation, Immobilier, Automobile etc.). Alors, lors de la création des échéances de crédits, je décide d'attribuer un taux en fonction du type de crédit comme le montre le code suivant : 
+*Remarque :* pour choisir un taux de crédit, j'ai décidé d'ajouter un type de crédit lors de l'envoi de la demande (Consommation, Immobilier, Automobile etc.). Alors, lors de la création des échéances de crédits, je décide d'attribuer un taux en fonction du type de crédit comme le montre le code suivant : 
 
 ```java
    public static final HashMap<CreditType, Double> rates = new HashMap<CreditType, Double>() {
@@ -390,99 +489,3 @@ Enfin, une fois la demande de crédit validé, les échéances de crédits sont 
         }
     };
 ```
-
-## Réalisation technique
-
-Au sein de l'API, nous avons 2 services, celui de la banque et celui des finances publiques.
-
-Voici un schéma représentant leurs communication.
-
-![alt text](images/image.png)
-
-#### Couche de persistance
-
-Concernant la réalisation technique, j'ai tout d'abord décidé d'avoir 4 entités au sein de mon API : 
-
-1) Une entité pour représenter les demandes de crédit.
-2) Une entité pour représenter les clients.
-3) Une entité pour représenter les échéances de crédits.
-4) Une entité permettant de représenter le détails des changements d'état des demandes de crédits
-
-Ensuite, au sein de mon API, la couche de persistance est gérer par JPA (Java Persistence API). JPA m'a permis de pouvoir mapper mes entités Java (Spring) à des entités de base de données relationnelles (PostgreSQL).
-
-#### Couche métier.
-
-Au niveau de la couche métier, pour la séparation des responsabilités, j'ai décidé de créer 3 interfaces qui auront chacune leurs implémentation.
-
-1) Une classe service permettant de gérer la logique métier des demandes de crédits
-2) Une classe service permettant de gérer la logique métier des clients
-3) Une classe service permettant de gérer la logique métiers des échéances de crédits.
-
-#### Couche RESTful
-
-Concernant la couche RESTful, pour respecter les choix cités précédemment, nous avons 3 classes qui expose leurs différents points d'accès 'endpoints' à travers lesquels les utilisateur de l'API peuvent interagir avec l'application.
-
-Pour pouvoir voir plus en détails ces routes RESTful, une documentation Swagger est mis à disposition à cette URL accessible lorsque le service banque est démarrer.
-
-URL : http://localhost:9000/swagger-ui/index.html#/
-*Attention : il est nécessaire de devoir démarrer l'application pour pouvoir accéder à la documentation*.
-
-![alt text](images/image-1.png)
-
-### Aspects techniques
-
-#### Communication entre le service banque et le service des finances
-
-Pour que nos deux services puissent communiquer, j'ai décidé de mettre en place un circuit breaker qui va se charger de faire appel au service des finances. Si ce dernier échoue à répondre, le circuit breaker va basculer à l'état "ouvert", ce qui va empêcher l'envoie de requête inutile à un service défaillant.
-
-Au sein de ma classe `LoanController.java`, nous pouvons y voir un endpoint `/{id}/validate` avec une méthode GET, pour demander au service des finances si les revenus déclarés par le client sont bien corrects.
-
-Voici le code de cette méthode.
-
-```java
- @GetMapping("/{id}/validate")
-    @CircuitBreaker(name = "bank-service", fallbackMethod = "fallbackValidationCall")
-    @Retry(name = "bank-service")
-    public ResponseEntity<EntityModel<Loan>> getValidationLoanByFinanceService(@PathVariable(value = "id") long loanId) {
-        Loan loanFind = loanRepository.findById(loanId).orElseThrow();
-        if (!loanRepository.findById(loanId).isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-        RoundRobinLoadBalancer lb = clientFactory.getInstance("finance-service", RoundRobinLoadBalancer.class);
-        ServiceInstance instance = lb.choose().block().getServer();
-        String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/{id}/validate?amount="+ loanFind.getRevenue3dernierreAnnee();
-        String response = template.getForObject(url, String.class, loanId);
-        switch (response) {
-            case "ok":
-                loanFind.setStatus(StatusEnum.VALIDATION);
-                loanRepository.save(loanFind);
-                break;
-            case "ko":
-                loanFind.setStatus(StatusEnum.REJET);
-                loanRepository.save(loanFind);
-                break;
-            default:
-                break;
-        }
-        loanFind.setLastModified(this.getCurrentDate("yyyy-MM-dd"));
-        return ResponseEntity.ok(loanModelAssembler.toModel(loanFind));
-    }
-```
-
-Lors de l'appel à cet endpoint, le code va donc se charger de faire plusieurs choses : 
-- Créer une instance de la classe `RoundRobinBalancer` 
-- De récupérer une instance du service "finance-service"
-- De créer une URL sur laquelle la requête va être lancé
-- Le traitement de la réponse obtenue par le service des finances
-
-Dans le cas ou le service des finances et défaillant, notre service va se charger d'exécuter le contenu de la méthode `fallbackValidationCall`. Voici son contenu.
-
-```java
-    public ResponseEntity<EntityModel<Loan>> fallbackValidationCall(long loanId, Throwable t) {
-        System.out.println("Fallback method called");
-        Loan creditRequest = loanRepository.findById(loanId).orElseThrow();
-        return ResponseEntity.status(503).body(loanModelAssembler.toModel(creditRequest));
-    }
-```
-
-Cette méthode est simple, elle va se charger uniquement de retourner la demande de crédit qui a été envoyé au service des finances et renvoyé un code d'erreur 503 (`ServiceUnavailable`).
