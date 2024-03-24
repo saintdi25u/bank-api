@@ -221,8 +221,7 @@ public class LoanController {
         // return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         // }
 
-        return ResponseEntity.created(linkTo(getClass()).slash(loan.getId()).toUri())
-                .body(EntityModel.of(loan));
+        return ResponseEntity.ok(loanModelAssembler.toModel(loan));
     }
 
     // Permet de demander aux services finance l'étude des revenues
