@@ -19,6 +19,7 @@ import fr.miage.bank.infrastructure.rest.controllers.LoanController;
 public class StatusHistoryModelAssembler
                 implements RepresentationModelAssembler<StatusHistory, EntityModel<StatusHistory>> {
 
+        @SuppressWarnings("null")
         @Override
         public EntityModel<StatusHistory> toModel(StatusHistory statusHistory) {
                 var model = EntityModel.of(statusHistory);
@@ -27,7 +28,8 @@ public class StatusHistoryModelAssembler
                 return model;
         }
 
-         @Override
+         @SuppressWarnings("null")
+        @Override
         public CollectionModel<EntityModel<StatusHistory>> toCollectionModel(
                         Iterable<? extends StatusHistory> entities) {
                 var creditModel = StreamSupport

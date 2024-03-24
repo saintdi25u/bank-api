@@ -22,6 +22,8 @@ Pour démarrer le service "bank", il est tout d'abord recommandé de compiler le
 
 `mvn clean package -DskipTests`
 
+Le service démarre service sur le port 9000.
+
 Ensuite pour démarrer l'application, il suffit d'exécuter l'exécutable JAR généré précédemment.
 
 `java -jar target/bank-conseiller-0.0.1-SNAPSHOT.jar`
@@ -42,7 +44,7 @@ Ensuite pour démarrer l'application, il suffit d'exécuter l'exécutable JAR g�
 
 `java -jar target/finance-service-0.0.1-SNAPSHOT.jar`
 
-Votre service finance est désormais démarré.
+Votre service finance est désormais démarré sur le port 8080
 
 
 ## Qualité des réponses apportés aux besoin exprimés.
