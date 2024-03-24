@@ -10,7 +10,7 @@ Pour pouvoir lancer l'application, il est tout d'abord nécessaire de démarrer 
 Pour cela, un fichier `docker-compose.yml` est mis à disposition et prêt à l'emploi.
 
 ### Lancement des services
-Pour lancer le docker compose, il vous suffit de rentrer la commande `docker compose up` dans votre terminal favori.
+Pour lancer le docker compose, il vous suffit de rentrer la commande `docker compose up -d` dans votre terminal favori.
 
 ### Démarrage du service "bank".
 
@@ -20,7 +20,7 @@ Tout d'abord, veuillez vous diriger dans le dossier "bank-conseiller".
 
 Pour démarrer le service "bank", il est tout d'abord recommandé de compiler le code source et de créer un exécutable JAR.
 
-`mvn clean package`
+`mvn clean package -DskipTests`
 
 Ensuite pour démarrer l'application, il suffit d'exécuter l'exécutable JAR généré précédemment.
 
@@ -36,7 +36,7 @@ Tout d'abord, veuillez vous diriger dans le dossier "bank-finance".
 
 Pour démarrer le service "bank-finance", il est tout d'abord recommandé de compiler le code source et de créer un exécutable JAR.
 
-`mvn clean package`
+`mvn clean package -DskipTests`
 
 Ensuite pour démarrer l'application, il suffit d'exécuter l'exécutable JAR généré précédemment.
 

@@ -1,7 +1,6 @@
 -- INSERT CUSTOMER
-INSERT INTO customer (customer_id,email, first_name, last_name, birth_date, adress, job)
+INSERT INTO customer (email, first_name, last_name, birth_date, adress, job)
 VALUES (
-        1,
     'corentinstd@gmail.com',
     'Corentin',
     'SAINT-DIZIER',
@@ -10,9 +9,8 @@ VALUES (
     'Student'
 );
 
-INSERT INTO customer (customer_id,email, first_name, last_name, birth_date, adress, job)
+INSERT INTO customer (email, first_name, last_name, birth_date, adress, job)
 VALUES (
-        2,
     'hugok@gmail.com',
     'Hugo',
     'KIRBACH',
@@ -21,9 +19,8 @@ VALUES (
     'DJ'
 );
 
-INSERT INTO customer (customer_id,email, first_name, last_name, birth_date, adress, job)
+INSERT INTO customer (email, first_name, last_name, birth_date, adress, job)
 VALUES (
-        3,
     'operrin@loria.fr',
     'Olivier',
     'Perrin',
@@ -32,9 +29,8 @@ VALUES (
     'Enseignant maître'
 );
 
-INSERT INTO customer (customer_id,email, first_name, last_name, birth_date, adress, job)
+INSERT INTO customer (email, first_name, last_name, birth_date, adress, job)
 VALUES (
-        4,
     'jvirch@gmail.com',
     'John',
     'VIRICH',
@@ -43,9 +39,8 @@ VALUES (
     'Coach'
 );
 
-INSERT INTO customer (customer_id,email, first_name, last_name, birth_date, adress, job)
+INSERT INTO customer (email, first_name, last_name, birth_date, adress, job)
 VALUES (
-        5,
     'tlhuillier@gmail.com',
     'Thomas',
     'L''HUILLIER',
@@ -55,9 +50,8 @@ VALUES (
 );
 -- INSERT LOANS
 
-INSERT INTO loan (id,last_modified, loan_amount, loan_duration, request_date, revenue3dernierre_annee, credit_deadline_id, customer_id,loan_type, proposal_advisor, status)
+INSERT INTO loan (last_modified, loan_amount, loan_duration, request_date, revenue3dernierre_annee, credit_deadline_id, customer_id,loan_type, proposal_advisor, status)
 VALUES (
-        1,
         current_date,
         50000,
         20,
@@ -80,9 +74,8 @@ VALUES (
 
 
 
-INSERT INTO loan (id,last_modified, loan_amount, loan_duration, request_date, revenue3dernierre_annee, credit_deadline_id, customer_id,loan_type, proposal_advisor, status)
+INSERT INTO loan (last_modified, loan_amount, loan_duration, request_date, revenue3dernierre_annee, credit_deadline_id, customer_id,loan_type, proposal_advisor, status)
 VALUES (
-        2,
         current_date,
         130000,
         35,
@@ -117,9 +110,8 @@ VALUES (
         'VALIDATION'
        );
 
-INSERT INTO loan (id,last_modified, loan_amount, loan_duration, request_date, revenue3dernierre_annee, credit_deadline_id, customer_id,loan_type, proposal_advisor, status)
+INSERT INTO loan (last_modified, loan_amount, loan_duration, request_date, revenue3dernierre_annee, credit_deadline_id, customer_id,loan_type, proposal_advisor, status)
 VALUES (
-        3,
         current_date,
         130000,
         30,
@@ -156,15 +148,23 @@ VALUES (
        );
 
 
-INSERT INTO loan (id,last_modified, loan_amount, loan_duration, request_date, revenue3dernierre_annee, credit_deadline_id, customer_id,loan_type, proposal_advisor, status)
+INSERT INTO credit_deadline(capital_amount, credit_deadline_amount, loan_end_date, loan_start_date, rate_loan)
 VALUES (
-        4,
+        50000,
+        3000,
+        to_date('2046-03-30','YYYY-MM-DD'),
+        current_date,
+        6.0
+       );
+
+INSERT INTO loan (last_modified, loan_amount, loan_duration, request_date, revenue3dernierre_annee, credit_deadline_id, customer_id,loan_type, proposal_advisor, status)
+VALUES (
         current_date,
         50000,
         25,
         current_date,
         36000,
-        null,
+        1,
         4,
         'CONSOMMATION',
         'ACCEPTATION',
@@ -204,15 +204,7 @@ VALUES (
        );
 
 
-INSERT INTO credit_deadline(id,capital_amount, credit_deadline_amount, loan_end_date, loan_start_date, rate_loan)
-VALUES (
-        1,
-        50000,
-        3000,
-        to_date('2046-03-30','YYYY-MM-DD'),
-        current_date,
-        6.0
-       );
+
 
 
 

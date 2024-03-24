@@ -20,7 +20,6 @@ public class CreditDeadline {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JsonIgnore
     @OneToOne(mappedBy = "creditDeadline")
     private Loan loan;
 

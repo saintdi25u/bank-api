@@ -182,9 +182,11 @@ public class LoanServiceImpl implements LoanService {
     }
 
     private double getMensualité(double montant, int duree, double taux) {
-        taux = taux / 100;
-        int nbPaiement = duree * 12;
-        double mensualite = (montant * taux) / (1 - Math.pow(1 + taux, -nbPaiement));
+        double tauxInteretPeriodique = taux / 12 / 100; 
+        int dureeMois = duree * 12; 
+        double mensualite = montant * (tauxInteretPeriodique * Math.pow(1 + tauxInteretPeriodique, dureeMois))
+                           / (Math.pow(1 + tauxInteretPeriodique, dureeMois) - 1);
+        
         return mensualite;
     }
 
