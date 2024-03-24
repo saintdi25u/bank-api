@@ -16,6 +16,7 @@ import java.util.stream.StreamSupport;
 public class LoanModelAssembler
                 implements RepresentationModelAssembler<Loan, EntityModel<Loan>> {
 
+        @SuppressWarnings("null")
         @Override
         public EntityModel<Loan> toModel(Loan loan) {
                 var model = EntityModel.of(loan);
@@ -85,6 +86,7 @@ public class LoanModelAssembler
 
         }
 
+        @SuppressWarnings("null")
         @Override
         public CollectionModel<EntityModel<Loan>> toCollectionModel(
                         Iterable<? extends Loan> entities) {

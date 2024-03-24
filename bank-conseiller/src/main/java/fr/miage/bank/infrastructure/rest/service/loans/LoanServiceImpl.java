@@ -5,13 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import com.netflix.discovery.converters.Auto;
-
-import ch.qos.logback.core.status.Status;
 import fr.miage.bank.domain.entity.Loan;
 import fr.miage.bank.domain.entity.StatusHistory;
 import fr.miage.bank.domain.entity.Customer;
@@ -39,6 +33,7 @@ public class LoanServiceImpl implements LoanService {
     @Autowired
     StatusHistoryRepository statusHistoryRepository;
 
+    // Permet de créer une demande de crédit
     @Override
     public Loan create(Loan loan) {
         Customer customer = customerRepository.findById(loan.getCustomer().getCustomer_id())
@@ -60,6 +55,7 @@ public class LoanServiceImpl implements LoanService {
 
     }
 
+    // Permet de modifier une demande de crédit
     public Loan modify(long loanId, Loan loan) {
         Loan loanToModify = loanRepository.findById(loanId)
                 .orElseThrow(() -> new ResourceNotFound());
@@ -74,12 +70,7 @@ public class LoanServiceImpl implements LoanService {
         return loanRepository.save(loanToModify);
     }
 
-    // public Enum<StatusEnum> getStatusloan(long loadId) {
-    // Loan loan = loanRepository.findById(loadId)
-    // .orElseThrow(() -> new ResourceNotFound());
-    // return loan.getStatus();
-    // }
-
+    // Permet d'envoyer une demande de crédit pour étude
     public Loan send(long loanId) {
         Loan loan = loanRepository.findById(loanId)
                 .orElseThrow(() -> new ResourceNotFound());
@@ -95,6 +86,7 @@ public class LoanServiceImpl implements LoanService {
         }
     }
 
+    // Permet d'accepter une demande de crédit par le conseiller
     public Loan accept(Long loanId) {
         Loan loan = loanRepository.findById(loanId)
                 .orElseThrow(() -> new ResourceNotFound());
@@ -111,6 +103,7 @@ public class LoanServiceImpl implements LoanService {
                 loan.getCustomer(), loan.getCreditDeadline());
     }
 
+    // Permet de refuser une demande de crédit par le conseiller
     public Loan refuse(Long loanId) {
         Loan loan = loanRepository.findById(loanId)
                 .orElseThrow(() -> new ResourceNotFound());
@@ -128,6 +121,7 @@ public class LoanServiceImpl implements LoanService {
                 loan.getCustomer(), loan.getCreditDeadline());
     }
 
+    // Permet de valider une demande de crédit par le responsable
     public Loan valid(Long loanId) {
         Loan loan = loanRepository.findById(loanId)
                 .orElseThrow(() -> new ResourceNotFound());
@@ -145,6 +139,7 @@ public class LoanServiceImpl implements LoanService {
                 loan.getCustomer(), loan.getCreditDeadline());
     }
 
+    // Permet de rejeter une demande de crédit par le responsable
     @Override
     public Loan reject(Long loanId) {
         Loan loan = loanRepository.findById(loanId)
@@ -164,6 +159,7 @@ public class LoanServiceImpl implements LoanService {
                 loan.getCustomer(), loan.getCreditDeadline());
     }
 
+    // Permet de créer une échéance de crédit
     public CreditDeadline createNewEcheanceCredit(Loan loan) {
         CreditDeadline echeanceCredit = new CreditDeadline();
         echeanceCredit.setLoanStartDate(this.getCurrentDate("yyyy-MM-dd"));
@@ -177,10 +173,12 @@ public class LoanServiceImpl implements LoanService {
         return creditDeadlineRepository.save(echeanceCredit);
     }
 
+    // Permet d'ajouter un nombre de mois à une date
     private LocalDate addMonthToDate(LocalDate date, int month) {
         return date.plusMonths(month);
     }
 
+    // Permet de récupérer le montant des mensualités
     private double getMensualité(double montant, int duree, double taux) {
         double tauxInteretPeriodique = taux / 12 / 100; 
         int dureeMois = duree * 12; 
@@ -190,6 +188,7 @@ public class LoanServiceImpl implements LoanService {
         return mensualite;
     }
 
+    // Permet de récupérer la date actuelle en fonction d'un pattern
     private LocalDate getCurrentDate(String pattern) {
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
@@ -198,6 +197,7 @@ public class LoanServiceImpl implements LoanService {
         return currentDate;
     }
 
+    
     @Override
     public List<StatusHistory> getStatusHistory(long idLoan) {
         List<StatusHistory> statusHistory = statusHistoryRepository.findByLoan(loanRepository.findById(idLoan).get())

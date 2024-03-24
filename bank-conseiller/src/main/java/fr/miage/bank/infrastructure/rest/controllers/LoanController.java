@@ -3,15 +3,12 @@ package fr.miage.bank.infrastructure.rest.controllers;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.ecwid.consul.v1.Response;
-
 import fr.miage.bank.domain.entity.Loan;
 import fr.miage.bank.domain.entity.StatusHistory;
 import fr.miage.bank.domain.entity.CreditDeadline;
 import fr.miage.bank.infrastructure.repository.LoanRepository;
 import fr.miage.bank.infrastructure.rest.assembler.LoanModelAssembler;
 import fr.miage.bank.infrastructure.rest.assembler.StatusHistoryModelAssembler;
-import fr.miage.bank.infrastructure.rest.service.exception.ResourceNotFound;
 import fr.miage.bank.infrastructure.rest.service.loans.LoanServiceImpl;
 import fr.miage.bank.infrastructure.rest.assembler.CreditDeadlineModelAssembler;
 import fr.miage.bank.infrastructure.rest.shared.StatusEnum;
@@ -36,7 +33,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import static java.util.stream.Collectors.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/credits")

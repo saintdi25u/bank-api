@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.miage.bank.domain.entity.Loan;
 import fr.miage.bank.domain.entity.CreditDeadline;
 import fr.miage.bank.infrastructure.repository.LoanRepository;
-import fr.miage.bank.infrastructure.rest.assembler.CreditDeadlineModelAssembler;
 import fr.miage.bank.infrastructure.rest.service.echeances.CreditDeadlineService;
 import fr.miage.bank.infrastructure.rest.service.exception.ResourceNotFound;
 

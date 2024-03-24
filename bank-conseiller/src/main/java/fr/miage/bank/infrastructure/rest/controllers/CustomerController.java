@@ -11,15 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecwid.consul.v1.Response;
-
-import fr.miage.bank.domain.entity.Loan;
 import fr.miage.bank.domain.entity.Customer;
 import fr.miage.bank.infrastructure.repository.CustomerRepository;
 import fr.miage.bank.infrastructure.rest.assembler.LoanModelAssembler;
 import fr.miage.bank.infrastructure.rest.assembler.UserModelAssembler;
 import fr.miage.bank.infrastructure.rest.service.customers.CustomerService;
-import fr.miage.bank.infrastructure.rest.service.exception.ResourceNotFound;
 import jakarta.transaction.Transactional;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 

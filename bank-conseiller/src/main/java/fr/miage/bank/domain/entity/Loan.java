@@ -1,23 +1,11 @@
 package fr.miage.bank.domain.entity;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
-
-import org.hibernate.mapping.List;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.bind.DefaultValue;
-import org.springframework.cglib.core.Local;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import ch.qos.logback.core.status.Status;
 import fr.miage.bank.infrastructure.rest.shared.CreditType;
 import fr.miage.bank.infrastructure.rest.shared.StatusEnum;
 import jakarta.persistence.CascadeType;
@@ -29,7 +17,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 

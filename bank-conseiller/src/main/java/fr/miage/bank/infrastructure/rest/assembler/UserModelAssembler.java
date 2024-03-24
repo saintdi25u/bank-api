@@ -13,6 +13,7 @@ import fr.miage.bank.infrastructure.rest.controllers.CustomerController;
 @Component
 public class UserModelAssembler implements RepresentationModelAssembler<Customer, EntityModel<Customer>> {
 
+        @SuppressWarnings("null")
         @Override
         public EntityModel<Customer> toModel(Customer customer) {
                 var model = EntityModel.of(customer);
@@ -30,6 +31,7 @@ public class UserModelAssembler implements RepresentationModelAssembler<Customer
                 return model;
         }
 
+        @SuppressWarnings("null")
         @Override
         public CollectionModel<EntityModel<Customer>> toCollectionModel(
                         Iterable<? extends Customer> entities) {

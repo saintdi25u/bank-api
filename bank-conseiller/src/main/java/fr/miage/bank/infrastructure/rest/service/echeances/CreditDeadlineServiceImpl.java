@@ -5,9 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.netflix.discovery.converters.Auto;
-
-import fr.miage.bank.domain.entity.Customer;
 import fr.miage.bank.domain.entity.CreditDeadline;
 import fr.miage.bank.infrastructure.repository.LoanRepository;
 import fr.miage.bank.infrastructure.repository.CreditDeadlineRepository;

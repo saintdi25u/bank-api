@@ -13,7 +13,7 @@ public interface LoanService {
 
     public Loan create(Loan loan);
 
-   // public Enum<StatusEnum> getStatusCreditRequest(long idCreditRequest);
+    
    public List<StatusHistory> getStatusHistory(long idLoan);
 
     public Loan send(long idLoan);
